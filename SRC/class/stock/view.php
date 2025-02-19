@@ -132,7 +132,7 @@ function subStockView($param)
 			<table border="0" cellpadding="5" cellspacing="1">
 				<tr>
 					<th class="list_head">担当<?php fnOrder('CHARGE', 'stockSearch') ?></th>
-					<th class="list_head">ランク<?php fnOrder('RANK', 'stockSearch') ?></th>
+					<th class="list_head">ランク<?php fnOrder('`RANK`', 'stockSearch') ?></th>
 					<th class="list_head">日付<?php fnOrder('INSDT', 'stockSearch') ?></th>
 					<th class="list_head">物件名<?php fnOrder('ARTICLE', 'stockSearch') ?></th>
 					<th class="list_head">部屋<?php fnOrder('ROOM', 'stockSearch') ?></th>
@@ -243,8 +243,18 @@ function subStockEditView($param)
 		<table border="0" cellpadding="5" cellspacing="1">
 			<tr>
 				<th>除外</th>
-				<td><input type="radio" name="del" value="1" checked /> 非除外
-					<input type="radio" name="del" value="0" /> 除外
+				<td>
+					<?php
+					$check1 = '';
+					$check2 = '';
+					if ($param["del"] == '0') {
+						$check2 = "checked";
+					} else {
+						$check1 = "checked";
+					}
+					?>
+					<input type="radio" name="del" value="1" <?php print $check1; ?> /> 非除外
+					<input type="radio" name="del" value="0" <?php print $check2; ?> /> 除外
 				</td>
 			</tr>
 			<tr>
@@ -253,8 +263,7 @@ function subStockEditView($param)
 			</tr>
 			<tr>
 				<th>ランク</th>
-				<td>
-					<?php
+				<td><?php
 					if (!$param["stockNo"]) {
 						$param["rank"] = 1;
 					}
