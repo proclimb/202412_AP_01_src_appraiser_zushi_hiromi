@@ -32,10 +32,12 @@ function fnYMDCheck(msg, obj) {
  * @param obj    チェックしたい項目
  * @return true:異常、false:正常
  */
+
 function isLength(length, msg, obj) {
 	rtn = false;
 	if (obj.value.length > length) {
 		alert(msg + "は" + length + "文字以内で入力して下さい");
+		rtn = true;
 	}
 	return rtn;
 }
