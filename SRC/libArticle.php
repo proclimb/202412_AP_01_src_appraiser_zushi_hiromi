@@ -24,7 +24,8 @@ function subArticle()
 	}
 
 	if (!$sPage) {
-		$sPage = l;
+		// $sPage = l;
+		$sPage = 1;
 	}
 
 	if (!$orderBy) {
@@ -107,8 +108,7 @@ function subArticle()
 				<th class="list_head">営業担当者<?php fnOrder('SELLCHARGE', 'articleSearch') ?></th>
 			</tr>
 			<?php
-			$sql = fnSqlArticleList(1, $sDel, $sArticle, $sRoom, $sKeyPlace, $sArticleNote, $sKeyBox, $sDrawing, $sSellCharge, $sPage, $orderBy, $orderTo);
-
+			$sql = fnSqlArticleList(1, $sDel, $sArticle, $sRoom, $sKeyPlace, $sArticleNote, $sKeyBox, $sDrawing, $sSellCharge, $sPage, $orderBy, $orderTo);;
 			$res = mysqli_query($conn, $sql);
 			$i = 0;
 			while ($row = mysqli_fetch_array($res)) {
