@@ -2,7 +2,7 @@
 //
 //工事管理リスト
 //
-function fnSqlConstList($flg, $sDel, $sArticle, $sConstTrader, $sConstFlg1, $sConstFlg2, $sConstFlg3, $sConstFlg4, $sInteriorCharge, $sPage, $orderBy, $orderTo)
+function fnSqlConstList($flg, $sDel, $sArticle, $sConstTrader, $sConstFlg1, $sConstFlg2, $sConstFlg3, $sConstFlg4, $sInteriorCharge, $sPage, $orderBy, $orderTo,)
 {
 	switch ($flg) {
 		case 0:
@@ -30,47 +30,47 @@ function fnSqlConstList($flg, $sDel, $sArticle, $sConstTrader, $sConstFlg1, $sCo
 	if ($sArticle) {
 		$sql .= " AND ARTICLE LIKE '%$sArticle%'";
 	}
-	if ($sRoom) {
-		$sql .= " AND ROOM LIKE '%$sRoom%'";
-	}
-	if ($sAddress) {
-		$sql .= " AND ADDRESS LIKE '%$sAddress%'";
-	}
-	if ($sConstTrader) {
-		$sql .= " AND CONSTTRADER LIKE '%$sConstTrader%'";
-	}
-	if ($sConstFlg1 || $sConstFlg2 || $sConstFlg3 || $sConstFlg4) {
-		$sql .= " AND (";
-		$tmp = "";
-		if ($sConstFlg1) {
-			$sql .= "CONSTFLG1 = 1";
-			$tmp = " OR ";
-		}
-		if ($sConstFlg2) {
-			$sql .= $tmp . "CONSTFLG2 = 1";
-			$tmp = " OR ";
-		}
-		if ($sConstFlg3) {
-			$sql .= $tmp . "CONSTFLG3 = 1";
-			$tmp = " OR ";
-		}
-		if ($sConstFlg4) {
-			$sql .= $tmp . "CONSTFLG4 = 1";
-		}
-		$sql .= ")";
-	}
-	if ($sInteriorCharge) {
-		$sql .= " AND INTERIORCHARGE LIKE '%$sInteriorCharge%'";
-	}
-	if ($orderBy) {
-		$sql .= " ORDER BY $orderBy $orderTo";
-	}
-	if ($flg) {
-		$sql .= " LIMIT " . (($sPage - 1) * PAGE_MAX) . ", " . PAGE_MAX;
-	}
-
-	return ($sql);
+	//if ($sRoom) {
+	//	$sql .= " AND ROOM LIKE '%$sRoom%'";
+	//}
+	//if ($sAddress) {
+	//	$sql .= " AND ADDRESS LIKE '%$sAddress%'";
 }
+if ($sConstTrader) {
+	$sql .= " AND CONSTTRADER LIKE '%$sConstTrader%'";
+}
+if ($sConstFlg1 || $sConstFlg2 || $sConstFlg3 || $sConstFlg4) {
+	$sql .= " AND (";
+	$tmp = "";
+	if ($sConstFlg1) {
+		$sql .= "CONSTFLG1 = 1";
+		$tmp = " OR ";
+	}
+	if ($sConstFlg2) {
+		$sql .= $tmp . "CONSTFLG2 = 1";
+		$tmp = " OR ";
+	}
+	if ($sConstFlg3) {
+		$sql .= $tmp . "CONSTFLG3 = 1";
+		$tmp = " OR ";
+	}
+	if ($sConstFlg4) {
+		$sql .= $tmp . "CONSTFLG4 = 1";
+	}
+	$sql .= ")";
+}
+if ($sInteriorCharge) {
+	$sql .= " AND INTERIORCHARGE LIKE '%$sInteriorCharge%'";
+}
+if ($orderBy) {
+	$sql .= " ORDER BY $orderBy $orderTo";
+}
+if ($flg) {
+	$sql .= " LIMIT " . (($sPage - 1) * PAGE_MAX) . ", " . PAGE_MAX;
+}
+
+return ($sql);
+
 
 
 
