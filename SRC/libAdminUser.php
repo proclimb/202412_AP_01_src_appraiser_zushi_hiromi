@@ -105,7 +105,7 @@ function subAdminUserEdit()
 				<td><input type="text" name="id" value="<?php print $id; ?>" /></td>
 			</tr>
 			<tr>
-				<th>PASS<span class="red">（必須）</span></th>
+				<th>PASS<?php if ($purpose == "登録"): ?><span class="red">（必須）</span><?php endif ?></th>
 				<td><input type="text" name="password" /></td>
 			</tr>
 			<tr>
