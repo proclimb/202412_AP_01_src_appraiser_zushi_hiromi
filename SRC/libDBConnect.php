@@ -6,7 +6,7 @@
 function fnSqlLogin($id)
 {
     $id = addslashes($id);
-    $sql = "SELECT USERNO,AUTHORITY FROM TBLUSER";
+    $sql = "SELECT USERNO,AUTHORITY, PASSWORD FROM TBLUSER";
     $sql .= " WHERE DEL = 1";
     $sql .= " AND ID = '$id'";
 

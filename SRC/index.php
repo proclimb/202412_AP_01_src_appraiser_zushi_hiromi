@@ -40,6 +40,10 @@ require('class/title/control.php');
 // 一覧表示件数
 define("PAGE_MAX", 100);
 
+// パスワードハッシュ化、照合
+define("PASSWORD_DEFAULT", "2Y");
+
+
 // ログインチェック
 switch ($_REQUEST['act']) {
     // ログインチェック
@@ -47,10 +51,8 @@ switch ($_REQUEST['act']) {
         subLoginCheck();
         break;
 
-        // パスワードハッシュ化、照合
-        define("PASSWORD_DEFAULT", "2Y");
 
-        // ログアウト
+    // ログアウト
     case 'logout':
         $_COOKIE['cUserNo'] = '';
         $_COOKIE['authority'] = '';
