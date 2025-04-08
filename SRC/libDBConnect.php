@@ -1,5 +1,6 @@
 <?php
 
+
 //
 // ログイン
 //
@@ -41,13 +42,23 @@ function fnSqlAdminUserEdit($userNo)
 //
 function fnSqlAdminUserUpdate($userNo, $name, $id, $password, $authority)
 {
+
+    session_start();
+
+    $id2 = $_SESSION[$id];
+
+    var_dump($id2);
+
+
     if ($password !== "") {
         $pass = password_hash($password, PASSWORD_DEFAULT);
     }
 
     $sql = "UPDATE TBLUSER";
     $sql .= " SET NAME = '$name'";
-    $sql .= ",ID = '$id'";
+    if ($id ==  $id2) {
+        $sql .= ",ID = '$id'";
+    }
     if ($password !== "") {
         $sql .= ",PASSWORD = '$pass'";
     }

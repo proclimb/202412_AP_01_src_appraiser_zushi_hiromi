@@ -2,6 +2,7 @@
 //ユーザー情報チェック
 //
 function fnAdminUserEditCheck() {
+
 	tmp = form.name.value;
 	if (tmp.length == 0) {
 		alert('名前を入力してください');
@@ -11,17 +12,20 @@ function fnAdminUserEditCheck() {
 		alert('名前は10文字以内で入力してください');
 		return;
 	}
-
+	//らくがき
 	tmp = form.id.value;
-	if (tmp.length == 0) {
-		alert('IDを入力してください');
-		return;
+	tmpname1 = form.name.value;
+	tmpname2 = form.name.defaultValue;
+	if (tmpname1 !== tmpname2) {
+		if (tmp.length == 0) {
+			alert('IDを入力してください');
+			return;
+		}
+		if (tmp.length < 4 || tmp.length > 16 || tmp.match(/[^0-9a-zA-Z]+/)) {
+			alert('IDは4桁以上16桁以下の半角英数字で入力してください');
+			return;
+		}
 	}
-	if (tmp.length < 4 || tmp.length > 16 || tmp.match(/[^0-9a-zA-Z]+/)) {
-		alert('IDは4桁以上16桁以下の半角英数字で入力してください');
-		return;
-	}
-
 	check = form.userNo.value;
 	tmp = form.password.value;
 	if (check.length == 0 && tmp.length == 0) {

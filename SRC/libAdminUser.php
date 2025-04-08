@@ -1,7 +1,14 @@
 <?php
 //
 //ユーザー情報画面
+//矢代さんスペシャルバージョン
 //
+
+session_start();
+$_SESSION['$id'] = $value_from_sql;
+
+session_destroy();
+
 function subAdminUser()
 {
 	$conn = fnDbConnect();
@@ -44,9 +51,7 @@ function subAdminUser()
 						<td class="list_td<?php print $i; ?>"></td>
 						<td class="list_td<?php print $i; ?>"><?php print fnAuthorityName($authority); ?></td>
 						<td class="list_td<?php print $i; ?>">
-							<?php if ($userNo > 1) : ?>
-								<a href="javascript:fnAdminUserDeleteCheck(<?php print $userNo; ?>,'<?php print $name; ?>');">削除</a>
-							<?php endif ?>
+							<a href="javascript:fnAdminUserDeleteCheck(<?php print $userNo; ?>,'<?php print $name; ?>');">削除</a>
 						</td>
 					</tr>
 				<?php
@@ -81,6 +86,12 @@ function subAdminUserEdit()
 		$password  = htmlspecialchars($row[2]);
 		$authority = htmlspecialchars($row[3]);
 
+		//
+		$_SESSION['$id'] = $id;
+
+
+		session_destroy();
+
 		$purpose  = '更新';
 		$btnImage = 'btn_load.png';
 	} else {
@@ -105,11 +116,18 @@ function subAdminUserEdit()
 			</tr>
 			<tr>
 				<th>ID<span class="red">（必須）</span></th>
-				<td><input type="text" name="id" value="<?php print $id; ?>" /></td>
+				<td><input type="text" name="id" value="<?php print $id; ?>" />
+					<?php
+					if (isset($_REQUEST['errMessage'])) {
+						print "<span class=\"red\" algin=\"right\">" . $_REQUEST['errMessage'] . "</span>";
+					}
+					?>
+				</td>
 			</tr>
 			<tr>
-				<th>PASS<?php if ($purpose == "登録"): ?><span class="red">（必須）</span><?php endif ?></th>
-				<td><input type="text" name="password" <?php if ($purpose == "更新"): ?> placeholder="●●●●●●" <?php endif ?> /></td>
+				<th>PASS<?php if ($purpose == "登録"): ?> <span class="red"> （必須）</span><?php endif ?></th>
+				<td><input type="text" name="password" <?php if ($purpose == "更新"): ?> placeholder="*****" <?php endif ?> /></td>
+			</tr>
 			</tr>
 			<tr>
 				<th>所属</th>
@@ -119,13 +137,12 @@ function subAdminUserEdit()
 			</tr>
 		</table>
 
-		<a href="javascript:fnAdminUserEditCheck();"><img src="./images/<?php print $btnImage; ?>" /></a>　
+		<a href="javascript:fnAdminUserEditCheck();"><img src="./images/<?php print $btnImage; ?>" /></a>
 		<a href="javascript:form.act.value='adminUser';form.submit();"><img src="./images/btn_return.png" /></a>
 	</form>
+
 <?php
 }
-
-
 
 
 //
@@ -141,6 +158,15 @@ function subAdminUserEditComplete()
 	$password  = mysqli_real_escape_string($conn, $_REQUEST['password']);
 	$authority = mysqli_real_escape_string($conn, $_REQUEST['auth']);
 
+
+	if (subIDRepetition($id)) {
+		$errMessage = "IDが重複しています。";
+		// ユーザー情報編集画面に戻る
+		$_REQUEST['errMessage'] = $errMessage; // エラーメッセージをリクエストに保存
+		subAdminUserEdit(); // 編集画面を再表示
+		return; // 処理を中断
+	}
+
 	if ($userNo) {
 		$sql = fnSqlAdminUserUpdate($userNo, $name, $id, $password, $authority);
 		$res = mysqli_query($conn, $sql);
@@ -149,11 +175,10 @@ function subAdminUserEditComplete()
 		$res = mysqli_query($conn, $sql);
 	}
 
+
 	$_REQUEST['act'] = 'adminUser';
 	subAdminUser();
 }
-
-
 
 
 //
@@ -170,5 +195,32 @@ function subAdminUserDelete()
 
 	$_REQUEST['act'] = 'adminUser';
 	subAdminUser();
+}
+
+//
+// 重複ID抽出
+//
+function fnSqlIDRepetition($id)
+{
+	$id = $_REQUEST['id'];
+	$select = "SELECT USERNO,ID";
+	$from = " FROM TBLUSER";
+	$where = " WHERE DEL = 1 AND ID = '$id'";
+
+	return $select . $from . $where;
+}
+
+// ユーザーID重複チェック
+
+function subIDRepetition($id)
+{
+	$conn = fnDbConnect();
+	$sql = fnSqlIDRepetition($id);
+	$res = mysqli_query($conn, $sql);
+
+	if ($res && mysqli_num_rows($res) > 0) {
+		return true; // 重複あり
+	}
+	return false; // 重複なし
 }
 ?>
